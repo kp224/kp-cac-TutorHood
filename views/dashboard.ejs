@@ -1,0 +1,43 @@
+<h1>Welcome <%= data[0].name %> </h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Id</th>
+        <th>_Id</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Position</th>
+    </tr>
+    <tr>
+        <td><%= data[0].name %></td>
+        <td><%= data[0].id %></td>
+        <td><%= data[0]._id %></td>
+        <td><%= data[0].email %></td>
+        <td><%= data[0].password %></td>
+        <td><%= data[0].position%></td>
+    </tr>
+</table>
+
+
+<form action="" method="POST">
+    <h2>Subject of interest</h2>
+    <div class="form-group" id="position">
+        <label class="radio-inline"><input type="radio" name="optradio" value="1" required>English</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="2">History</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="3">Science</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="4">Language</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="5">Tutor</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="6">Math</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="7">AP</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="8">Computer Science</label>
+    </div>
+
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
+<form action="/logout?_method=DELETE" method="POST">
+    <button type="submit">Log Out</button>
+</form>

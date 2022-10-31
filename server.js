@@ -10,6 +10,9 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 const mongoose = require('mongoose')
+const User = require('./model/User.js')
+const emailValid = require('email-validator')
+
 
 // MongoDB setup using Mongoose
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true})
@@ -19,12 +22,13 @@ const db = mongoose.connection
 db.on('error', error => console.error(error))
 db.once('open', error => console.log('Connected to Mongoose'))
 
-const initializePassport = require('./passport-config')
-initializePassport(
-    passport,
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
-)
+
+// const initializePassport = require('./passport-config')
+// initializePassport(
+//     passport,
+//     email => users.find(user => user.email === email),
+//     id => users.find(user => user.id === id)
+// )
 
 const users = []
 
@@ -45,46 +49,82 @@ app.use(methodOverride('_method'))
 app.set('views', __dirname + '/views')
 
 // home page get function
-app.get('/', checkAuthenticated, function(req, res) {
-    res.render('index.ejs', {name: req.user.name})
+// app.get('/', async function(req, res) {
+    // try {
+    //     const userData = await User.find({id: req.user.id})
+    //     res.render('dashboard.ejs', {data: userData})
+    // } catch {
+    //     res.redirect('/login')
+    //     console.log("error occured in userData code")
+    // }
+
+
+    // const userData = await User.find({})
+    // res.redirect('/login')
+// })
+
+app.get('/', function(req, res) {
+    res.render('index.ejs')
 })
 
+
 // login get function
-app.get('/login', checkNotAuthenticated, function(req, res) {
+app.get('/login', function(req, res) {
     res.render('login.ejs')
 })
 
-// login post function
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-}))
+//login post function
+app.post('/login', async function(req, res) {
+    const userData = await User.find({email: req.body.email, password: req.body.password})
+
+    if(userData.length === 1) {
+        console.log('userdata is a valid object')
+        res.render('dashboard.ejs', {data: userData})
+    } else {
+        console.log('userdata is not a valid object')
+        res.redirect('/')
+    }  
+})
 
 // register get function
-app.get('/register', checkNotAuthenticated, function(req, res) {
+app.get('/register', function(req, res) {
     res.render('register.ejs')
 })
 
 // register post function
-app.post('/register', checkNotAuthenticated, async function(req, res) {
+app.post('/register', async function(req, res) {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        users.push({
-            id: Date.now().toString(),
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword,
-            position: req.body.optradio
-        })
+        const userData = await User.find({email: req.body.email})
 
-        res.redirect('/login')
+        console.log(userData)
+
+        if (emailValid.validate(req.body.email) && userData.length === 0) {
+            users.push({
+                id: Date.now().toString(),
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+                position: req.body.optradio
+            })
+    
+            const user = new User({
+                id: Date.now().toString(),
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+                position: req.body.optradio
+            })
+    
+            user.save()
+    
+            res.redirect('/login')
+        } else {
+            res.redirect('/register')
+        }
 
     } catch {
         res.redirect('/register')
-        console.log('did not work')
     }
-    console.log(users)
 })
 
 app.delete('/logout', function (req, res) {
@@ -93,19 +133,5 @@ app.delete('/logout', function (req, res) {
         res.redirect('/');
     });
 })
-
-function checkAuthenticated(req, res, next) {
-    if(req.isAuthenticated()) {
-        return next()
-    }
-    res.redirect('/login')
-}
-
-function checkNotAuthenticated(req, res, next) {
-    if(req.isAuthenticated()) {
-        return res.redirect('/')
-    }
-    next()
-}
 
 app.listen(process.env.PORT || 3000)
