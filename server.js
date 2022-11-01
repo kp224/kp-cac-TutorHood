@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+// import modules
 const express = require("express");
 const app = express();
 const passport = require("passport");
@@ -13,7 +14,7 @@ const User = require("./model/User.js");
 const emailValid = require("email-validator");
 const explicitTest = require("swearjar");
 
-// MongoDB setup using Mongoose
+// Connect to MongoDB using Mongoose
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 
 const db = mongoose.connection;
@@ -54,25 +55,29 @@ app.get("/login", function (req, res) {
 
 //login post function
 app.post("/login", async function (req, res) {
-  var userDatay = await User.find({
-    email: req.body.email,
-    password: req.body.password,
-  }).exec();
-  var xy = await User.find({
-    email: req.body.email,
-    password: req.body.password,
-  });
-  var s = xy[0]._id.toString();
-  if (userDatay.length === 1) {
-    const currentUser = await User.findById(s).exec();
-    currentUser.subject = req.body.optradio;
+  try {
+    var userDatay = await User.find({
+      email: req.body.email,
+      password: req.body.password,
+    }).exec();
+    var xy = await User.find({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    var s = xy[0]._id.toString();
+    if (userDatay.length === 1) {
+      const currentUser = await User.findById(s).exec();
+      currentUser.subject = req.body.optradio;
 
-    await currentUser.save();
+      await currentUser.save();
 
-    req.flash("_id", s);
+      req.flash("_id", s);
 
-    res.redirect("/dashboard");
-  } else {
+      res.redirect("/dashboard");
+    } else {
+      res.redirect("/login");
+    }
+  } catch {
     res.redirect("/login");
   }
 });

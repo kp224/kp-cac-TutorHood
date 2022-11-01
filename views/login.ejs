@@ -9,12 +9,33 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
 
-<body>
+<body style="background-color:rgb(25, 183, 72);">
+    <br>
     <h1>Login</h1>
 
     <br>
     <br>
+
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <label>
+                1. If you have not yet created an account, please go to the register page to register an account.
+                <br>
+                <br>
+                2. Please input the email and password you used when registering.
+                <br>
+                <br>
+                3. Select the current subject you would like to focus on.
+                <br>
+                <br>
+                4. Click the login button to login to your personalized dashboard.
+            </label>
+        </div>
+    </div>
+
     <br>
+
     <form action="/login" method="POST">
         <div class="container-fluid">
             <div class="row">
@@ -40,6 +61,8 @@
             <div class="row">
                 <div class="col-5"></div>
                 <div class="col-2">
+                    <label>Current subject of interest</label>
+                    <br>
                     <div class="form-group" id="position">
                         <div class="row">
                             <div class="col-6">
@@ -51,17 +74,20 @@
                                     History</label>
                             </div>
                         </div>
+                        <br>
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <label class="radio-inline"><input type="radio" name="optradio" value="3">
                                     Language</label>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <label class="radio-inline"><input type="radio" name="optradio" value="4">
                                     Science</label>
                             </div>
                         </div>
+
+                        <br>
 
                         <div class="row">
                             <div class="col-6">
