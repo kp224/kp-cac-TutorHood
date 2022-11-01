@@ -1,4 +1,4 @@
-<h1>Welcome <%= data[0].name %> </h1>
+<h1>Welcome <%= data.name %> </h1>
 
 <table>
     <tr>
@@ -10,27 +10,26 @@
         <th>Position</th>
     </tr>
     <tr>
-        <td><%= data[0].name %></td>
-        <td><%= data[0].id %></td>
-        <td><%= data[0]._id %></td>
-        <td><%= data[0].email %></td>
-        <td><%= data[0].password %></td>
-        <td><%= data[0].position%></td>
+        <td><%= data.name %></td>
+        <td><%= data.id %></td>
+        <td><%= data._id %></td>
+        <td><%= data.email %></td>
+        <td><%= data.password %></td>
+        <td><%= data.position%></td>
     </tr>
 </table>
 
 
-<form action="" method="POST">
+<form action="/dashboard" method="POST">
     <h2>Subject of interest</h2>
     <div class="form-group" id="position">
         <label class="radio-inline"><input type="radio" name="optradio" value="1" required>English</label>
         <label class="radio-inline"><input type="radio" name="optradio" value="2">History</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="3">Science</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="4">Language</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="5">Tutor</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="6">Math</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="7">AP</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="8">Computer Science</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="3">Language</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="4">Science</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="5">Math</label>
+        <label class="radio-inline"><input type="radio" name="optradio" value="6">Computer Science</label>
+        
     </div>
 
     <div>

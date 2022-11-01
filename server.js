@@ -12,10 +12,12 @@ const methodOverride = require('method-override')
 const mongoose = require('mongoose')
 const User = require('./model/User.js')
 const emailValid = require('email-validator')
+const explicitTest = require('swearjar')
+// const connectFlash = require('connect-flash')
 
 
 // MongoDB setup using Mongoose
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true})
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
 
 const db = mongoose.connection
 
@@ -34,7 +36,7 @@ const users = []
 
 app.set('view engine', 'ejs')
 
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(flash())
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -48,57 +50,142 @@ app.use(methodOverride('_method'))
 
 app.set('views', __dirname + '/views')
 
-// home page get function
-// app.get('/', async function(req, res) {
-    // try {
-    //     const userData = await User.find({id: req.user.id})
-    //     res.render('dashboard.ejs', {data: userData})
-    // } catch {
-    //     res.redirect('/login')
-    //     console.log("error occured in userData code")
-    // }
-
-
-    // const userData = await User.find({})
-    // res.redirect('/login')
-// })
-
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.render('index.ejs')
 })
 
 
 // login get function
-app.get('/login', function(req, res) {
+app.get('/login', function (req, res) {
     res.render('login.ejs')
 })
 
 //login post function
-app.post('/login', async function(req, res) {
-    const userData = await User.find({email: req.body.email, password: req.body.password})
-
-    if(userData.length === 1) {
+app.post('/login', async function (req, res) {
+    var userDatay = await User.find({ email: req.body.email, password: req.body.password }).exec();
+    var xy = await User.find({ email: req.body.email, password: req.body.password })
+    var s = xy[0]._id.toString()
+    console.log(s)
+    if (userDatay.length === 1) {
         console.log('userdata is a valid object')
-        res.render('dashboard.ejs', {data: userData})
+        // res.render('dashboard.ejs', {data: userData})
+
+        
+        console.log(xy)
+        const currentUser = await User.findById(s).exec();
+        
+        currentUser.subject = req.body.optradio;
+        await currentUser.save();
+        console.log(currentUser);
+
+
+        req.flash('_id', s)
+
+        // userData.subject = req.body.optradio;
+
+        // await userData.save();
+
+        // console.log(userData)
+
+        res.redirect('/dashboard')
+
     } else {
         console.log('userdata is not a valid object')
-        res.redirect('/')
-    }  
+        res.redirect('/login')
+    }
 })
 
+
+// dashboard get function
+app.get('/dashboard', async function (req, res) {
+
+    const userId = req.flash('_id')[0]
+    const userData = await User.findById(userId).exec();
+
+
+    // const storedEmail = (req.flash('email')[0])
+    // const userData = await User.find({ email: storedEmail })
+
+    console.log('fjdaslkfjokejfaoisf',userData)
+
+
+    const allUserData = await User.find({})
+    // console.log(allUserData)
+
+
+
+    const chosenSubject = req.body.optradio
+
+
+
+    if (userData.position === 1) {
+        console.log("student")
+        const qualifiedData = await User.findOne({position: 1, subject: chosenSubject})
+        res.render('dashboard.ejs', {data: userData, qualifiedUser: qualifiedData})
+    } else if (userData.position === 0) {
+        console.log("teacher")
+        const qualifiedData = await User.findOne({position: 0, subject: chosenSubject})
+        res.render('dashboard.ejs', {data: userData, qualifiedUser: qualifiedData})
+    }
+
+    
+
+
+
+
+
+
+
+    // res.render('dashboard.ejs', { data: userData, allUser: allUserData })
+
+
+
+})
+
+// dashboard post function
+app.post('/dashboard', async function (req, res) {
+    console.log(req.body.optradio)
+
+    // 1 - English
+    // 2 - History
+    // 3 - Language
+    // 4 - Science
+    // 5 - Math
+    // 6 - Computer Science
+
+    //subject chosen is
+
+    const x = req.body.optradio
+
+    if (userData.position === 1) {
+        print("student")
+
+        const qualifiedData = await User.find({ position: 1, subject: x })
+    } else if (userData.position === 0) {
+        print("teacher")
+
+        const qualifiedData = await User.find({ position: 0, subject: x })
+    }
+
+
+    // res.render('schedule.ejs')
+})
+
+
+
 // register get function
-app.get('/register', function(req, res) {
+app.get('/register', function (req, res) {
     res.render('register.ejs')
 })
 
 // register post function
-app.post('/register', async function(req, res) {
+app.post('/register', async function (req, res) {
     try {
-        const userData = await User.find({email: req.body.email})
+        const userData = await User.find({ email: req.body.email })
 
         console.log(userData)
 
-        if (emailValid.validate(req.body.email) && userData.length === 0) {
+        if (emailValid.validate(req.body.email) && userData.length === 0 && explicitTest.profane(req.body.name) === false) {
             users.push({
                 id: Date.now().toString(),
                 name: req.body.name,
@@ -106,7 +193,7 @@ app.post('/register', async function(req, res) {
                 password: req.body.password,
                 position: req.body.optradio
             })
-    
+
             const user = new User({
                 id: Date.now().toString(),
                 name: req.body.name,
@@ -114,9 +201,12 @@ app.post('/register', async function(req, res) {
                 password: req.body.password,
                 position: req.body.optradio
             })
-    
+
+            req.session.user = users;
+            req.session.save;
+
             user.save()
-    
+
             res.redirect('/login')
         } else {
             res.redirect('/register')
@@ -128,7 +218,7 @@ app.post('/register', async function(req, res) {
 })
 
 app.delete('/logout', function (req, res) {
-    req.logout(function(err) {
+    req.logout(function (err) {
         if (err) { return next(err); }
         res.redirect('/');
     });
