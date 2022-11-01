@@ -47,7 +47,6 @@ app.get('/', function (req, res) {
     res.render('index.ejs')
 })
 
-
 // login get function
 app.get('/login', function (req, res) {
     res.render('login.ejs')
@@ -81,7 +80,6 @@ app.post('/login', async function (req, res) {
         // console.log(userData)
 
         res.redirect('/dashboard')
-
     } else {
         console.log('userdata is not a valid object')
         res.redirect('/login')
@@ -91,75 +89,75 @@ app.post('/login', async function (req, res) {
 
 // dashboard get function
 app.get('/dashboard', async function (req, res) {
-
-    const userId = req.flash('_id')[0]
-    const userData = await User.findById(userId).exec();
-
-
-    // const storedEmail = (req.flash('email')[0])
-    // const userData = await User.find({ email: storedEmail })
-
-    console.log('fjdaslkfjokejfaoisf',userData)
-
-
-    const allUserData = await User.find({})
-    // console.log(allUserData)
-
-
-
-    const chosenSubject = req.body.optradio
-
-
-
-    if (userData.position === 1) {
-        console.log("student")
-        const qualifiedData = await User.findOne({position: 1, subject: chosenSubject})
-        res.render('dashboard.ejs', {data: userData, qualifiedUser: qualifiedData})
-    } else if (userData.position === 0) {
-        console.log("teacher")
-        const qualifiedData = await User.findOne({position: 0, subject: chosenSubject})
-        res.render('dashboard.ejs', {data: userData, qualifiedUser: qualifiedData})
-    }
-
+    try {
+        const userId = req.flash('_id')[0]
+        const userData = await User.findById(userId).exec();
     
-
-
-
-
-
-
-
-    // res.render('dashboard.ejs', { data: userData, allUser: allUserData })
-
-
-
+    
+        // const storedEmail = (req.flash('email')[0])
+        // const userData = await User.find({ email: storedEmail })
+    
+        // console.log('fjdaslkfjokejfaoisf',userData)
+    
+    
+        const allUserData = await User.find({})
+        // console.log(allUserData)
+    
+    
+    //     // 1 - English
+    //     // 2 - History
+    //     // 3 - Language
+    //     // 4 - Science
+    //     // 5 - Math
+    //     // 6 - Computer Science
+    
+        const chosenSubject = userData.subject
+        console.log('subject: ', chosenSubject, 'position', userData.position)
+    
+        if (userData.position === 1) {
+            console.log("student")
+            const qualifiedData = await User.findOne({position: 0, subject: chosenSubject})
+            console.log('qualified data', qualifiedData)
+            res.render('dashboard.ejs', {data: userData, qualifiedUser: qualifiedData})
+        } else if (userData.position === 0) {
+            console.log("teacher")
+            const qualifiedData = await User.findOne({position: 1, subject: chosenSubject})
+            console.log('qualified data', qualifiedData)
+            res.render('dashboard.ejs', {data: userData, qualifiedUser: qualifiedData})
+        }
+    } catch {
+        res.redirect('/login')
+    }
 })
 
 // dashboard post function
-app.post('/dashboard', async function (req, res) {
-    console.log(req.body.optradio)
+// app.post('/dashboard', async function (req, res) {
+//     console.log(req.body.optradio)
 
-    // 1 - English
-    // 2 - History
-    // 3 - Language
-    // 4 - Science
-    // 5 - Math
-    // 6 - Computer Science
+//     // 1 - English
+//     // 2 - History
+//     // 3 - Language
+//     // 4 - Science
+//     // 5 - Math
+//     // 6 - Computer Science
 
-    //subject chosen is
+//     //subject chosen is
 
-    const x = req.body.optradio
+//     const x = req.body.optradio
 
-    if (userData.position === 1) {
-        print("student")
+//     console.log("user position",userData.position, "type of data for user position, ", typeof(userData.position))
 
-        const qualifiedData = await User.find({ position: 1, subject: x })
-    } else if (userData.position === 0) {
-        print("teacher")
+//     if (userData.position === 1) {
+//         print("student")
+//         const qualifiedData = await User.find({ position: 1, subject: x })
+//     } else if (userData.position === 0) {
+//         print("teacher")
+//         const qualifiedData = await User.find({ position: 0, subject: x })
+//     }
 
-        const qualifiedData = await User.find({ position: 0, subject: x })
-    }
-})
+//     console.log('qualified data', qualifiedData)
+
+// })
 
 
 
