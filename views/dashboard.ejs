@@ -1,3 +1,5 @@
+<html>
+
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -7,31 +9,52 @@
     <link rel="stylesheet" type="text/css" href="css/dash.css">
 </head>
 
-<br>
-<br>
-<h1>Welcome <%= data.name %> </h1>
+<body>
+
+    <br>
+    <br>
+    <h1>Welcome <%= data.name %>
+    </h1>
 
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
-            <h2 id="rcorners1">The algorithm has matched you with <%= qualifiedUser.name %>, a <% if(qualifiedUser.position === 1) { %>student<% } else { %>tutor<% } %>.</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h2 id="rcorners1">The algorithm has matched you with
+                    <%= qualifiedUser.name %>, a <% if(qualifiedUser.position===1) { %>student<% } else { %>tutor<% } %>
+                                    .
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h2 id="rcorners1">You can contact <%= qualifiedUser.name %> at <a href="mailto:<%=
+                                                    qualifiedUser.email %>">
+                            <%= qualifiedUser.email %>
+                        </a> to schedule <% if(qualifiedUser.subject===1){ %>english<% } else
+                                if(qualifiedUser.subject===2){ %>history<% } else if(qualifiedUser.subject===3) { %>
+                                    language<% } else if(qualifiedUser.subject===4) { %>science<% } else
+                                            if(qualifiedUser.subject===5) { %>math<% } else
+                                                if(qualifiedUser.subject===6) { %>coding<% } %>
+                                                    tutoring
+                                                    sessions.</h2>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
-            <h2 id="rcorners1">You can contact <%= qualifiedUser.name %> at <a href="mailto:<%= qualifiedUser.email %>"><%= qualifiedUser.email %></a> to schedule <% if(qualifiedUser.subject===1){ %>english<% } else if(qualifiedUser.subject===2){ %>history<% } else if(qualifiedUser.subject===3) { %>language<% } else if(qualifiedUser.subject===4) { %>science<% } else if(qualifiedUser.subject===5) { %>math<% } else if(qualifiedUser.subject===6) { %>coding<% } %> tutoring sessions.</h2>                
-        </div>
+
+    <div>
+        <form action="/logout?_method=DELETE" method="POST">
+            <button type="submit" class="btn
+                                                                            btn-lg
+                                                                            btn-primary">Log
+                Out</button>
+        </form>
     </div>
-</div>
 
+</body>
 
-<div>
-    <form action="/logout?_method=DELETE" method="POST">
-        <button type="submit" class="btn btn-lg btn-primary">Log Out</button>
-    </form>
-</div>
-
+</html>
