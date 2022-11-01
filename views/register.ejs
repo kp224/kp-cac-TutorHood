@@ -4,9 +4,83 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
 
+
+<h1>Register</h1>
+
+<br>
+<br>
+<br>
+<form action="/register" method="POST">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <label for="name">Name</label>
+            <br>
+            <input type="text" id="name" name="name" required>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <label for="email">Email</label>
+            <br>
+            <input type="text" id="email" name="email" required>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <label for="password">Password</label>
+            <br>
+            <input type="password" id="password" name="password" maxlength="12" required>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+
+            <div class="form-group" id="position">
+
+                <label class="radio-inline"><input type="radio" name="optradio" value="1" required>Student</label>
+                <label class="radio-inline"><input type="radio" name="optradio" value="0">Tutor</label>
+            </div>
+        </div>
+        <div class="col-6"></div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2" style="text-align: center;">
+            <button type="submit" class="btn btn-lg btn-primary">Register</button>
+            <br>
+            <br>
+            <br>
+            
+        </div>
+        <div class="col-5"></div>
+    </div>
+</div>
+</form>
+
+<div>
+    <a href="/login" class="btn btn-lg btn-secondary">Login</a>
+</div>
+
+
+<!-- jklfdjsalfds -->
+<!-- 
 <h1>Register</h1>
 
 <form action="/register" method="POST">
@@ -36,4 +110,4 @@
 
 </form>
 
-<a href="/login">Login</a>
+<a href="/login">Login</a> -->

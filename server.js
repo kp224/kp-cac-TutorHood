@@ -13,7 +13,6 @@ const mongoose = require('mongoose')
 const User = require('./model/User.js')
 const emailValid = require('email-validator')
 const explicitTest = require('swearjar')
-// const connectFlash = require('connect-flash')
 
 
 // MongoDB setup using Mongoose
@@ -23,14 +22,6 @@ const db = mongoose.connection
 
 db.on('error', error => console.error(error))
 db.once('open', error => console.log('Connected to Mongoose'))
-
-
-// const initializePassport = require('./passport-config')
-// initializePassport(
-//     passport,
-//     email => users.find(user => user.email === email),
-//     id => users.find(user => user.id === id)
-// )
 
 const users = []
 
