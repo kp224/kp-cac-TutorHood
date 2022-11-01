@@ -1,30 +1,85 @@
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+
+
 <h1>Login</h1>
-
 <form action="/login" method="POST">
-    <div>
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email" required>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-1">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-1">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" maxlength="12" required>
+        </div>
     </div>
 
-    <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" maxlength="12" required>
+    <br>
+
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <div class="form-group" id="position">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="radio-inline"><input type="radio" name="optradio" value="1" required> English</label>
+                    </div>
+                    <div class="col-6">
+                        <label class="radio-inline"><input type="radio" name="optradio" value="2"> History</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label class="radio-inline"><input type="radio" name="optradio" value="3"> Language</label>
+                    </div>
+                    <div class="col-6">
+                        <label class="radio-inline"><input type="radio" name="optradio" value="4"> Science</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label class="radio-inline"><input type="radio" name="optradio" value="5"> Math</label>
+                    </div>
+                    <div class="col-6">
+                        <label class="radio-inline"><input type="radio" name="optradio" value="6"> Coding</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6"></div>
     </div>
 
-    <h2>Subject of interest as of right now</h2>
-    <div class="form-group" id="position">
-        <label class="radio-inline"><input type="radio" name="optradio" value="1" required>English</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="2">History</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="3">Language</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="4">Science</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="5">Math</label>
-        <label class="radio-inline"><input type="radio" name="optradio" value="6">Computer Science</label>
-        
-    </div>
+    <br>
+    <br>
     
-    <div>
-        <button type="submit">Login</button>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2" style="text-align: center;">
+            <button type="submit" class="btn btn-lg btn-primary">Login</button>
+            <br>
+            <br>
+            <br>
+            <a href="/register" class="btn btn-lg btn-secondary">Register</a>
+        </div>
+        <div class="col-5"></div>
     </div>
+</div>
 </form>
 
-<a href="/register">Register</a>
+

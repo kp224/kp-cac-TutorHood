@@ -36,6 +36,8 @@ const users = []
 
 app.set('view engine', 'ejs')
 
+app.use(express.static(__dirname + '/public'));
+
 app.use(express.urlencoded({ extended: false }))
 app.use(flash())
 app.use(session({
@@ -166,9 +168,6 @@ app.post('/dashboard', async function (req, res) {
 
         const qualifiedData = await User.find({ position: 0, subject: x })
     }
-
-
-    // res.render('schedule.ejs')
 })
 
 
